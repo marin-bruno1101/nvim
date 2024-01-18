@@ -1,1 +1,1 @@
-require("nevz")
+require("core")
