@@ -8,7 +8,6 @@ return {
 			"lukas-reineke/lsp-format.nvim",
 		},
 		config = function()
-			require("mason").setup()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"efm",
@@ -21,13 +20,25 @@ return {
 			local lsp_format = require("lsp-format")
 
 			local prettier = {
-				formatCommand = "prettier --stdin-filepath ${INPUT} ${--tab-width:tab-width}",
+				formatCommand = "prettierd ${INPUT}",
 				formatStdin = true,
+				env = {
+					string.format(
+						"PRETTIERD_DEFAULT_CONFIG=%s",
+						vim.fn.expand(vim.fn.stdpath("config") .. "/utils/linter-config/.prettierrc")
+					),
+				},
 			}
 
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
 					lspconfig[server_name].setup({
+						capabilities = require("cmp_nvim_lsp").default_capabilities(),
+					})
+				end,
+
+				["tsserver"] = function()
+					lspconfig.tsserver.setup({
 						capabilities = require("cmp_nvim_lsp").default_capabilities(),
 					})
 				end,
@@ -105,3 +116,4 @@ return {
 		end,
 	},
 }
+
