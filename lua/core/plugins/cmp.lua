@@ -29,7 +29,7 @@ return {
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
-					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-g>"] = cmp.mapping.complete(),
 					["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
 					["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 				}),
