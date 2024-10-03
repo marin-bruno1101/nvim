@@ -11,7 +11,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"efm",
-					"tsserver",
+					"ts_ls",
 					"tailwindcss",
 				},
 			})
@@ -37,8 +37,8 @@ return {
 					})
 				end,
 
-				["tsserver"] = function()
-					lspconfig.tsserver.setup({
+				["ts_ls"] = function()
+					lspconfig.ts_ls.setup({
 						capabilities = require("cmp_nvim_lsp").default_capabilities(),
 					})
 				end,
