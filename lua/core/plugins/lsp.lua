@@ -5,7 +5,6 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"lukas-reineke/lsp-format.nvim",
 		},
 		config = function()
 			require("mason-lspconfig").setup({
@@ -17,9 +16,13 @@ return {
 			})
 
 			local lspconfig = require("lspconfig")
-			local lsp_format = require("lsp-format")
 
 			local prettier = {
+				formatCommand = "prettierd ${INPUT}",
+				formatStdin = true,
+			}
+
+			local prettier_configured = {
 				formatCommand = "prettierd ${INPUT}",
 				formatStdin = true,
 				env = {
@@ -70,9 +73,7 @@ return {
 				end,
 
 				["efm"] = function()
-					lsp_format.setup({})
 					lspconfig.efm.setup({
-						on_attach = lsp_format.on_attach,
 						init_options = { documentFormatting = true },
 						filetypes = {
 							"typescript",
@@ -84,14 +85,15 @@ return {
 							"json",
 							"lua",
 							"python",
+							"cpp",
 						},
 						settings = {
 							rootMarkers = { ".git/" },
 							languages = {
-								typescript = { prettier },
-								typescriptreact = { prettier },
-								javascript = { prettier },
-								javascriptreact = { prettier },
+								typescript = { prettier_configured },
+								typescriptreact = { prettier_configured },
+								javascript = { prettier_configured },
+								javascriptreact = { prettier_configured },
 								html = { prettier },
 								css = { prettier },
 								json = { prettier },
@@ -105,6 +107,12 @@ return {
 								python = {
 									{
 										formatCommand = "autopep8 -",
+										formatStdin = true,
+									},
+								},
+								cpp = {
+									{
+										formatCommand = "clang-format",
 										formatStdin = true,
 									},
 								},
